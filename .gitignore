@@ -1,0 +1,27 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Environment files
+.env
+.env.*
+
+# Temp and system files
+*.log
+*.tmp
+*.bak
+.DS_Store
+
+# Byte-compiled / cache
+*.pyc
+
+# IDE configs
+.vscode/
+.idea/
+
+# Railway/Heroku build artifacts
+runtime.txt
+Procfile
