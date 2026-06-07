@@ -96,12 +96,10 @@ def generate_chunk_sync(bin_num, month, year, cvv_input, count):
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     welcome_text = (
         "👋 Welcome to the CC Generator Bot!\n\n"
-        "Use `/gen` to start generating cards.\n"
-        "Use `/split quantity` to split the files"
-        "Use `/filter` to remove duplicates"
-        "Example commands:\n"
-        "• `/gen 400012xxxxxxxxx|12|28|000`\n"
-        "• `/split 5000` \n"
+        "Use `/gen bin|month|year|cvv` to start generating cards.\n"
+        "Use `/split quantity` to split the files\n"
+        "Use `/filter` to remove duplicates\n"
+        "/gen"
     )
     await update.message.reply_text(welcome_text, parse_mode="Markdown")
 
@@ -404,12 +402,12 @@ async def split_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         part_bio = io.BytesIO("\n".join(part_lines).encode())
         part_index = idx + 1
         # filename format: original_split_{part}_of_{total}.txt
-        filename = f"{base_root}_split_{part_index}_of_{parts}.txt"
+        filename = f"Dhruv{part_index}_of_{parts}.txt"
         part_bio.name = filename
         part_bio.seek(0)
         await update.message.reply_document(document=part_bio, filename=filename)
 
-    await update.message.reply_text(f"Split done: {parts} file(s) created (total {total} lines)")
+    await update.message.reply_text(f"✅Split Done: {parts} file(s) created (Total: {total} lines)")
 
 
 async def filter_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
