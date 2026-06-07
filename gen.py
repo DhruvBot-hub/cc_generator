@@ -96,10 +96,9 @@ def generate_chunk_sync(bin_num, month, year, cvv_input, count):
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     welcome_text = (
         "👋 Welcome to the CC Generator Bot!\n\n"
-        "Use `/gen bin|month|year|cvv` to start generating cards.\n"
-        "Use `/split quantity` to split the files\n"
-        "Use `/filter` to remove duplicates\n"
-        "/gen"
+        "Use /gen `bin|month|year|cvv` to start generating cards.\n"
+        "Use /split `quantity` to split the files\n"
+        "Use /filter to remove duplicates"
     )
     await update.message.reply_text(welcome_text, parse_mode="Markdown")
 
@@ -169,10 +168,9 @@ async def gen_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await update.message.reply_text(
         "Send your BIN details in one of these formats:\n"
-        "• `BIN`\n"
-        "• `BIN|MM`\n"
-        "• `BIN|MM|YY`\n"
-        "\nExample: `400012xxxxxxxxx|12|28`",
+        "• `/gen BIN`\n"
+        "• `/gen BIN|MM|YY|CVV`\n"
+        "\nExample: `/gen 400012xxxxxxxxx|12|28`",
         parse_mode="Markdown"
     )
     return ASK_CARD_DETAILS
@@ -402,12 +400,13 @@ async def split_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         part_bio = io.BytesIO("\n".join(part_lines).encode())
         part_index = idx + 1
         # filename format: original_split_{part}_of_{total}.txt
-        filename = f"Dhruv{part_index}_of_{parts}.txt"
+        filename = f"@dhruv_sehra_Part_{part_index}.txt"
         part_bio.name = filename
         part_bio.seek(0)
-        await update.message.reply_document(document=part_bio, filename=filename)
+        caption = f"✧𝗣𝗮𝗿𝘁 ➠ {part_index}/{parts}\n ✧𝗖𝗮𝗿𝗱𝘀 ➠ {len(part_lines)}"
+        await update.message.reply_document(document=part_bio, filename=filename, caption=caption)
 
-    await update.message.reply_text(f"✅Split Done: {parts} file(s) created (Total: {total} lines)")
+    await update.message.reply_text(f"✅ Split Done: {parts} file(s) created (Total: {total} lines)")
 
 
 async def filter_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
